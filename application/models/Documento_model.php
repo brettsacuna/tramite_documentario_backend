@@ -6,19 +6,36 @@
             parent::__construct();
         }
 
-        public function get_documentos($pagina, $limite, $desde, $hasta, $numero_registro, $unidad_origen, $tipo_documento, $destino, $bandera, $estado) {
+        public function get_documentos($pagina, $limite, $desde, $hasta, $numero_registro, $unidad_origen, $tipo_documento, $destino, $bandera, $estado, $tipo_usuario, $usuario) {
 
-            if ($bandera == 0) {
-                $this->db->like('documento.documento_id', $numero_registro);
-            } else if ($bandera == 1) {
-                $this->db->where('documento.unidad_id_origen', $unidad_origen);
-            } else if ($bandera == 2) {
-                $this->db->where('documento.tipo_documento_id', $tipo_documento);
-            } else if ($bandera == 3) {
-                $this->db->where(array('documento.documento_fecha >= ' >= $desde, "documento.documento_fecha <= " => $hasta));
+            if ($tipo_usuario == 0) {
+                if ($bandera == 0) {
+                    $this->db->like('documento.documento_id', $numero_registro);
+                } else if ($bandera == 1) {
+                    $this->db->where('documento.unidad_id_origen', $unidad_origen);
+                } else if ($bandera == 2) {
+                    $this->db->where('documento.tipo_documento_id', $tipo_documento);
+                } else if ($bandera == 3) {
+                    $this->db->where(array('documento.documento_fecha >= ' => $desde, "documento.documento_fecha <= " => $hasta));
+                } else {
+                    if ($estado == 2) {
+                        $this->db->where(array('documento.seccion_id_destino' => $destino, 'documento.estado_documento' => 1));
+                    }
+                }
             } else {
-                if ($estado == 2) {
-                    $this->db->where(array('documento.seccion_id_destino' => $destino, 'documento.estado_documento' => 1));
+                if ($bandera == 0) {
+                    $this->db->like('documento.documento_id', $numero_registro);
+                    $this->db->where('documento.usuario_id', $usuario);
+                } else if ($bandera == 1) {
+                    $this->db->where(array('documento.unidad_id_origen' => $unidad_origen, 'documento.usuario_id' => $usuario));
+                } else if ($bandera == 2) {
+                    $this->db->where(array('documento.tipo_documento_id' => $tipo_documento, 'documento.usuario_id' => $usuario));
+                } else if ($bandera == 3) {
+                    $this->db->where(array('documento.documento_fecha >= ' => $desde, "documento.documento_fecha <= " => $hasta, 'documento.usuario_id' => $usuario));
+                } else {
+                    if ($estado == 2) {
+                        $this->db->where(array('documento.seccion_id_destino' => $destino, 'documento.estado_documento' => 1, 'documento.usuario_id' => $usuario));
+                    }
                 }
             }
 
@@ -30,17 +47,34 @@
             $this->db->join('tipo_documento', 'tipo_documento.tipo_documento_id = documento.tipo_documento_id');
             $this->db->join('unidad', 'unidad.unidad_id = documento.unidad_id_origen');
 
-            if ($bandera == 0) {
-                $this->db->like('documento.documento_id', $numero_registro);
-            } else if ($bandera == 1) {
-                $this->db->where('documento.unidad_id_origen', $unidad_origen);
-            } else if ($bandera == 2) {
-                $this->db->where('documento.tipo_documento_id', $tipo_documento);
-            } else if ($bandera == 3) {
-                $this->db->where(array('documento.documento_fecha >= ' >= $desde, "documento.documento_fecha <= " => $hasta));
+            if ($tipo_usuario == 0) {
+                if ($bandera == 0) {
+                    $this->db->like('documento.documento_id', $numero_registro);
+                } else if ($bandera == 1) {
+                    $this->db->where('documento.unidad_id_origen', $unidad_origen);
+                } else if ($bandera == 2) {
+                    $this->db->where('documento.tipo_documento_id', $tipo_documento);
+                } else if ($bandera == 3) {
+                    $this->db->where(array('documento.documento_fecha >= ' => $desde, "documento.documento_fecha <= " => $hasta));
+                } else {
+                    if ($estado == 2) {
+                        $this->db->where(array('documento.seccion_id_destino' => $destino, 'documento.estado_documento' => 1));
+                    }
+                }
             } else {
-                if ($estado == 2) {
-                    $this->db->where(array('documento.seccion_id_destino' => $destino, 'documento.estado_documento' => 1));
+                if ($bandera == 0) {
+                    $this->db->like('documento.documento_id', $numero_registro);
+                    $this->db->where('documento.usuario_id', $usuario);
+                } else if ($bandera == 1) {
+                    $this->db->where(array('documento.unidad_id_origen' => $unidad_origen, 'documento.usuario_id' => $usuario));
+                } else if ($bandera == 2) {
+                    $this->db->where(array('documento.tipo_documento_id' => $tipo_documento, 'documento.usuario_id' => $usuario));
+                } else if ($bandera == 3) {
+                    $this->db->where(array('documento.documento_fecha >= ' => $desde, "documento.documento_fecha <= " => $hasta, 'documento.usuario_id' => $usuario));
+                } else {
+                    if ($estado == 2) {
+                        $this->db->where(array('documento.seccion_id_destino' => $destino, 'documento.estado_documento' => 1, 'documento.usuario_id' => $usuario));
+                    }
                 }
             }
 

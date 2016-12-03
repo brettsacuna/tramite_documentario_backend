@@ -20,8 +20,10 @@
             $destino = $this->input->get('destino');
             $bandera = $this->input->get('bandera');
             $estado = $this->input->get('estado');
+            $tipo_usuario = $this->input->get('tipo_usuario');
+            $usuario = $this->input->get('usuario');
 
-	    	$this->response($this->Documento_model->get_documentos(($pagina == 1 ? 0 : (($pagina - 1) * $limite)), $limite, $desde, $hasta, $numero_registro, $unidad_origen, $tipo_documento, $destino, $bandera, $estado), REST_Controller::HTTP_OK);
+	    	$this->response($this->Documento_model->get_documentos(($pagina == 1 ? 0 : (($pagina - 1) * $limite)), $limite, $desde, $hasta, $numero_registro, $unidad_origen, $tipo_documento, $destino, $bandera, $estado, $tipo_usuario, $usuario), REST_Controller::HTTP_OK);
 	    }
 
 		public function index_post() {
