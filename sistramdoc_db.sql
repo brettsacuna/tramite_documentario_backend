@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 28, 2016 at 09:26 AM
+-- Generation Time: Dec 03, 2016 at 10:37 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -30,12 +30,11 @@ USE `sistramdoc_db`;
 --
 
 DROP TABLE IF EXISTS `accion`;
-CREATE TABLE IF NOT EXISTS `accion` (
-  `accion_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `accion` (
+  `accion_id` int(11) NOT NULL,
   `accion` varchar(45) NOT NULL,
-  `estado` varchar(45) NOT NULL,
-  PRIMARY KEY (`accion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `estado` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `accion`
@@ -54,11 +53,10 @@ INSERT INTO `accion` (`accion_id`, `accion`, `estado`) VALUES
 --
 
 DROP TABLE IF EXISTS `clasificacion`;
-CREATE TABLE IF NOT EXISTS `clasificacion` (
+CREATE TABLE `clasificacion` (
   `clasificacion_id` int(11) NOT NULL DEFAULT '0',
   `clasificacion` varchar(45) NOT NULL,
-  `estado` bit(1) NOT NULL,
-  PRIMARY KEY (`clasificacion_id`)
+  `estado` bit(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -82,7 +80,7 @@ INSERT INTO `clasificacion` (`clasificacion_id`, `clasificacion`, `estado`) VALU
 --
 
 DROP TABLE IF EXISTS `controlador`;
-CREATE TABLE IF NOT EXISTS `controlador` (
+CREATE TABLE `controlador` (
   `parametro` varchar(20) DEFAULT NULL,
   `valor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -101,14 +99,20 @@ INSERT INTO `controlador` (`parametro`, `valor`) VALUES
 --
 
 DROP TABLE IF EXISTS `decreto`;
-CREATE TABLE IF NOT EXISTS `decreto` (
-  `decreto_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `decreto` (
+  `decreto_id` int(11) NOT NULL,
   `documento_id` varchar(10) DEFAULT NULL,
   `accion_id` int(11) DEFAULT NULL,
   `observacion` varchar(100) DEFAULT NULL,
-  `estado` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`decreto_id`)
+  `estado` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `decreto`
+--
+
+INSERT INTO `decreto` (`decreto_id`, `documento_id`, `accion_id`, `observacion`, `estado`) VALUES
+(1, '1', 3, '', b'1');
 
 -- --------------------------------------------------------
 
@@ -117,11 +121,19 @@ CREATE TABLE IF NOT EXISTS `decreto` (
 --
 
 DROP TABLE IF EXISTS `decreto_disposicion`;
-CREATE TABLE IF NOT EXISTS `decreto_disposicion` (
+CREATE TABLE `decreto_disposicion` (
   `decreto_id` int(11) DEFAULT NULL,
   `disposicion_id` int(11) DEFAULT NULL,
   `estado` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `decreto_disposicion`
+--
+
+INSERT INTO `decreto_disposicion` (`decreto_id`, `disposicion_id`, `estado`) VALUES
+(1, 7, b'1'),
+(1, 8, b'1');
 
 -- --------------------------------------------------------
 
@@ -130,11 +142,18 @@ CREATE TABLE IF NOT EXISTS `decreto_disposicion` (
 --
 
 DROP TABLE IF EXISTS `decreto_seccion`;
-CREATE TABLE IF NOT EXISTS `decreto_seccion` (
+CREATE TABLE `decreto_seccion` (
   `decreto_id` int(11) DEFAULT NULL,
   `seccion_id` int(11) DEFAULT NULL,
   `estado` bit(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `decreto_seccion`
+--
+
+INSERT INTO `decreto_seccion` (`decreto_id`, `seccion_id`, `estado`) VALUES
+(1, 7, b'1');
 
 -- --------------------------------------------------------
 
@@ -143,12 +162,11 @@ CREATE TABLE IF NOT EXISTS `decreto_seccion` (
 --
 
 DROP TABLE IF EXISTS `disposicion`;
-CREATE TABLE IF NOT EXISTS `disposicion` (
-  `disposicion_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `disposicion` (
+  `disposicion_id` int(11) NOT NULL,
   `disposicion` varchar(45) NOT NULL,
-  `estado` varchar(45) NOT NULL,
-  PRIMARY KEY (`disposicion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+  `estado` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `disposicion`
@@ -179,8 +197,8 @@ INSERT INTO `disposicion` (`disposicion_id`, `disposicion`, `estado`) VALUES
 --
 
 DROP TABLE IF EXISTS `documento`;
-CREATE TABLE IF NOT EXISTS `documento` (
-  `documento_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `documento` (
+  `documento_id` int(11) NOT NULL,
   `asunto` varchar(100) NOT NULL,
   `documento_fecha` date NOT NULL,
   `tipo_documento_id` int(11) NOT NULL,
@@ -196,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `documento` (
   `fecha_disposicion` datetime DEFAULT NULL,
   `disposicion_final` longtext,
   `tipo_documento_id_disposicion_final` int(11) DEFAULT NULL,
-  PRIMARY KEY (`documento_id`)
+  `usuario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -206,14 +224,13 @@ CREATE TABLE IF NOT EXISTS `documento` (
 --
 
 DROP TABLE IF EXISTS `seccion`;
-CREATE TABLE IF NOT EXISTS `seccion` (
-  `seccion_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `seccion` (
+  `seccion_id` int(11) NOT NULL,
   `seccion` varchar(45) NOT NULL,
   `seccion_larga` varchar(200) NOT NULL,
   `seccion_abreviada` varchar(10) NOT NULL,
-  `estado` varchar(45) NOT NULL,
-  PRIMARY KEY (`seccion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+  `estado` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `seccion`
@@ -242,12 +259,11 @@ INSERT INTO `seccion` (`seccion_id`, `seccion`, `seccion_larga`, `seccion_abrevi
 --
 
 DROP TABLE IF EXISTS `situacion`;
-CREATE TABLE IF NOT EXISTS `situacion` (
-  `situacion_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `situacion` (
+  `situacion_id` int(11) NOT NULL,
   `situacion` varchar(45) NOT NULL,
-  `estado` bit(1) NOT NULL,
-  PRIMARY KEY (`situacion_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `estado` bit(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `situacion`
@@ -266,13 +282,12 @@ INSERT INTO `situacion` (`situacion_id`, `situacion`, `estado`) VALUES
 --
 
 DROP TABLE IF EXISTS `tipo_documento`;
-CREATE TABLE IF NOT EXISTS `tipo_documento` (
-  `tipo_documento_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tipo_documento` (
+  `tipo_documento_id` int(11) NOT NULL,
   `tipo_documento` varchar(45) NOT NULL,
   `tipo_documento_corto` varchar(10) NOT NULL,
-  `estado` bit(1) NOT NULL,
-  PRIMARY KEY (`tipo_documento_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+  `estado` bit(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tipo_documento`
@@ -311,15 +326,14 @@ INSERT INTO `tipo_documento` (`tipo_documento_id`, `tipo_documento`, `tipo_docum
 --
 
 DROP TABLE IF EXISTS `unidad`;
-CREATE TABLE IF NOT EXISTS `unidad` (
-  `unidad_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `unidad` (
+  `unidad_id` int(11) NOT NULL,
   `unidad_id_interno` varchar(10) NOT NULL,
   `unidad` varchar(100) NOT NULL,
   `unidad_gguu` varchar(100) NOT NULL,
   `unidad_nucleo` varchar(100) NOT NULL,
-  `estado` varchar(45) NOT NULL,
-  PRIMARY KEY (`unidad_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=720 DEFAULT CHARSET=utf8;
+  `estado` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `unidad`
@@ -1053,22 +1067,135 @@ INSERT INTO `unidad` (`unidad_id`, `unidad_id_interno`, `unidad`, `unidad_gguu`,
 --
 
 DROP TABLE IF EXISTS `usuario`;
-CREATE TABLE IF NOT EXISTS `usuario` (
-  `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `usuario` (
+  `usuario_id` int(11) NOT NULL,
   `usuario` varchar(45) NOT NULL,
   `contrasena` varchar(45) NOT NULL,
   `estado` bit(1) NOT NULL,
-  `tipo_usuario` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`usuario_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `tipo_usuario` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `usuario`
 --
 
 INSERT INTO `usuario` (`usuario_id`, `usuario`, `contrasena`, `estado`, `tipo_usuario`) VALUES
-(1, 'admin', 'admin', b'1', '0');
+(1, 'admin', 'admin', b'1', '0'),
+(6, 'usuario', 'usuario', b'1', '1');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `accion`
+--
+ALTER TABLE `accion`
+  ADD PRIMARY KEY (`accion_id`);
+
+--
+-- Indexes for table `clasificacion`
+--
+ALTER TABLE `clasificacion`
+  ADD PRIMARY KEY (`clasificacion_id`);
+
+--
+-- Indexes for table `decreto`
+--
+ALTER TABLE `decreto`
+  ADD PRIMARY KEY (`decreto_id`);
+
+--
+-- Indexes for table `disposicion`
+--
+ALTER TABLE `disposicion`
+  ADD PRIMARY KEY (`disposicion_id`);
+
+--
+-- Indexes for table `documento`
+--
+ALTER TABLE `documento`
+  ADD PRIMARY KEY (`documento_id`);
+
+--
+-- Indexes for table `seccion`
+--
+ALTER TABLE `seccion`
+  ADD PRIMARY KEY (`seccion_id`);
+
+--
+-- Indexes for table `situacion`
+--
+ALTER TABLE `situacion`
+  ADD PRIMARY KEY (`situacion_id`);
+
+--
+-- Indexes for table `tipo_documento`
+--
+ALTER TABLE `tipo_documento`
+  ADD PRIMARY KEY (`tipo_documento_id`);
+
+--
+-- Indexes for table `unidad`
+--
+ALTER TABLE `unidad`
+  ADD PRIMARY KEY (`unidad_id`);
+
+--
+-- Indexes for table `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`usuario_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `accion`
+--
+ALTER TABLE `accion`
+  MODIFY `accion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `decreto`
+--
+ALTER TABLE `decreto`
+  MODIFY `decreto_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `disposicion`
+--
+ALTER TABLE `disposicion`
+  MODIFY `disposicion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT for table `documento`
+--
+ALTER TABLE `documento`
+  MODIFY `documento_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `seccion`
+--
+ALTER TABLE `seccion`
+  MODIFY `seccion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `situacion`
+--
+ALTER TABLE `situacion`
+  MODIFY `situacion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `tipo_documento`
+--
+ALTER TABLE `tipo_documento`
+  MODIFY `tipo_documento_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT for table `unidad`
+--
+ALTER TABLE `unidad`
+  MODIFY `unidad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=720;
+--
+-- AUTO_INCREMENT for table `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
